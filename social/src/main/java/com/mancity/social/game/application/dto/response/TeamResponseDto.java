@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class TeamResponseDto {
     }
 
     private static TeamResponseDto extractTeam(Team team) {
+        if (ObjectUtils.isEmpty(team)) {
+            return TeamResponseDto.builder().build();
+        }
         return TeamResponseDto.builder()
                 .goal(team.getGoal())
                 .pass(team.getPass())

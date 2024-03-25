@@ -2,7 +2,8 @@ package com.mancity.social.game.application;
 
 import com.mancity.social.game.application.dto.request.*;
 import com.mancity.social.game.application.dto.response.GameResponseDto;
-import com.mancity.social.game.application.dto.response.UserResponseDto;
+import com.mancity.social.game.domain.repository.GameRepositorySupport;
+import com.mancity.social.user.application.dto.response.UserResponseDto;
 import com.mancity.social.game.domain.Game;
 import com.mancity.social.game.domain.Player;
 import com.mancity.social.game.domain.repository.GameRepository;
@@ -10,13 +11,15 @@ import com.mancity.social.game.domain.repository.PlayerRepository;
 import com.mancity.social.game.exception.NoSuchGameException;
 import com.mancity.social.game.exception.NoSuchPlayerException;
 import com.mancity.social.game.infrastructure.file.util.S3Uploader;
-import com.mancity.social.game.presentation.UserFeignClient;
+import com.mancity.social.user.presentation.UserFeignClient;
+import com.mancity.social.user.application.dto.request.UserPlusRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,8 @@ public class GameService {
     private final S3Uploader uploader;
 
     private final UserFeignClient userFeignClient;
+
+    private final GameRepositorySupport gameRepositorySupport;
 
     public void create(GameCreateRequestDto dto) {
         gameRepository.save(dto.toEntity());
@@ -73,6 +78,13 @@ public class GameService {
         userFeignClient.plus(UserPlusRequestDto.from(player));
     }
 
+    public List<GameResponseDto> findGamesByParticipantUserId(Long userId) {
+        return gameRepositorySupport.findGamesByParticipantUserId(userId)
+                .stream()
+                .map(GameResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
     private Game findById(long id) {
         return gameRepository.findById(id)
                 .orElseThrow(NoSuchGameException::new);
@@ -80,5 +92,12 @@ public class GameService {
 
     private UserResponseDto findByIdFromUserService(long id) {
         return userFeignClient.findById(id);
+    }
+
+    public List<GameResponseDto> findAllByFilters(Integer gender, Integer region, Integer playerNumber, String level) {
+        return gameRepositorySupport.findAllByFilters(gender, region, playerNumber, level)
+                .stream()
+                .map(GameResponseDto::from)
+                .toList();
     }
 }

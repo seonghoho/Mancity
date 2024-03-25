@@ -1,9 +1,8 @@
-package com.mancity.social.game.presentation;
+package com.mancity.social.user.presentation;
 
-import com.mancity.social.game.application.dto.request.UserPlusRequestDto;
-import com.mancity.social.game.application.dto.response.UserResponseDto;
+import com.mancity.social.user.application.dto.request.UserPlusRequestDto;
+import com.mancity.social.user.application.dto.response.UserResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,4 +17,7 @@ public interface UserFeignClient {
     @PostMapping("/api/user/stat/plus")
     public void plus(@RequestBody UserPlusRequestDto dto);
 
+//    TODO : 알람요청 API 작성 필요
+//    @PostMapping("/api/user/alarm")
+//    public void alarm(@RequestBody AlarmRequestDto dto);
 }

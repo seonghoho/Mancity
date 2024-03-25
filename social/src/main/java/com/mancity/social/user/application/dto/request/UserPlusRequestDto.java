@@ -1,4 +1,4 @@
-package com.mancity.social.game.application.dto.request;
+package com.mancity.social.user.application.dto.request;
 
 import com.mancity.social.game.domain.Player;
 import lombok.AllArgsConstructor;

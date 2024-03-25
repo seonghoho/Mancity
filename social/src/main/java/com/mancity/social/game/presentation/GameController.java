@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/game")
+@RequestMapping("/api/social/game")
 @RequiredArgsConstructor
 @Slf4j
 public class GameController {
@@ -39,9 +39,14 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/allocated/{id}") // 회원별 데이터를 할당 받은 매치 목록
     ResponseEntity<List<GameResponseDto>> findAllByUserId(@PathVariable long id) {
         return new ResponseEntity<>(gameService.findAllByUserId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/participated/{id}") // 회원별 참여 상태인 매치 목록
+    ResponseEntity<List<GameResponseDto>> findGamesByParticipantUserId(@PathVariable long id) {
+        return new ResponseEntity<>(gameService.findGamesByParticipantUserId(id), HttpStatus.OK);
     }
 
     @PostMapping("/input")
@@ -57,10 +62,19 @@ public class GameController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/match/check/{match}/{user}")
-    public ResponseEntity<Boolean> checkManager(@PathVariable(name = "match") long matchId,
+    @GetMapping("/check/{game}/{user}")
+    public ResponseEntity<Boolean> checkManager(@PathVariable(name = "game") long gameId,
                                                 @PathVariable(name = "user") long userId) {
-        return new ResponseEntity<>(gameService.checkManager(CheckManagerDto.of(matchId, userId)), HttpStatus.OK);
+        return new ResponseEntity<>(gameService.checkManager(CheckManagerDto.of(gameId, userId)), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<GameResponseDto>> findAll(@RequestParam(required = false) Integer gender,
+                                                         @RequestParam(required = false) Integer region,
+                                                         @RequestParam(required = false) Integer playernumber,
+                                                         @RequestParam(required = false) String level) {
+        List<GameResponseDto> dtos = gameService.findAllByFilters(gender, region, playernumber, level);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }

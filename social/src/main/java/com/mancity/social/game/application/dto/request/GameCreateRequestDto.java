@@ -1,6 +1,7 @@
 package com.mancity.social.game.application.dto.request;
 
 import com.mancity.social.game.domain.Game;
+import com.mancity.social.game.domain.GameLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ public class GameCreateRequestDto {
 
     private int playerNumber;
 
+    private String level;
+
     public Game toEntity() {
         return Game.builder()
                 .replayUrl("")
@@ -35,6 +38,7 @@ public class GameCreateRequestDto {
                 .time(time)
                 .isOver(isOver)
                 .playerNumber(playerNumber)
+                .level(GameLevel.valueOf(level))
                 .build();
     }
 }

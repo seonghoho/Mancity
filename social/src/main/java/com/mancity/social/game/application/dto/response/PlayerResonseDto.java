@@ -39,19 +39,11 @@ public class PlayerResonseDto {
 
     public static List<PlayerResonseDto> fromPlayersA(Game game) {
         List<Player> players = game.getPlayersA();
-        for (Player player : players) {
-            System.out.println("---------- from Players AAA ----------");
-            System.out.println(player.getId());
-        }
         return transfer(players);
     }
 
     public static List<PlayerResonseDto> fromPlayersB(Game game) {
         List<Player> players = game.getPlayersB();
-        for (Player player : players) {
-            System.out.println("---------- from Players BBB ----------");
-            System.out.println(player.getId());
-        }
         return transfer(players);
     }
 
