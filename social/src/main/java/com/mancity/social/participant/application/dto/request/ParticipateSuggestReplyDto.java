@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameManagerResponseDto {
+public class ParticipateSuggestReplyDto {
 
-    private long participateRequestId;
+    private long participateSuggestId;
 
     private boolean response;
+
 }

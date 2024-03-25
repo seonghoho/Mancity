@@ -1,15 +1,20 @@
 package com.mancity.social.participant.application;
 
-import com.mancity.social.participant.application.dto.request.GameManagerResponseDto;
+import com.mancity.social.participant.application.dto.request.ParticipateRequestReplyDto;
 import com.mancity.social.participant.application.dto.request.GameParticipateRequestDto;
 import com.mancity.social.game.domain.Game;
 import com.mancity.social.game.domain.repository.GameRepository;
 import com.mancity.social.game.exception.NoSuchGameException;
+import com.mancity.social.participant.application.dto.request.GameParticipateSuggestDto;
+import com.mancity.social.participant.application.dto.request.ParticipateSuggestReplyDto;
 import com.mancity.social.participant.application.dto.respose.ParticipantResponseDto;
 import com.mancity.social.participant.application.dto.respose.ParticipateRequestResponseDto;
+import com.mancity.social.participant.application.dto.respose.ParticipateSuggestResponseDto;
 import com.mancity.social.participant.domain.Participant;
 import com.mancity.social.participant.domain.ParticipateRequest;
+import com.mancity.social.participant.domain.ParticipateSuggest;
 import com.mancity.social.participant.domain.repository.ParticipateRequestRepoisotry;
+import com.mancity.social.participant.domain.repository.ParticipateSuggestRepository;
 import com.mancity.social.participant.exception.AlreadyParticipatedException;
 import com.mancity.social.participant.exception.AlreadyRequestedGameException;
 import com.mancity.social.participant.exception.GameFullException;
@@ -29,6 +34,8 @@ public class ParticipantService {
 
     private final ParticipateRequestRepoisotry participateRequestRepoisotry;
 
+    private final ParticipateSuggestRepository participateSuggestRepository;
+
     public void requestParticipate(GameParticipateRequestDto dto) {
         validateParticipateRequest(dto);
         Game game = gameRepository.findById(dto.getGameId())
@@ -37,7 +44,7 @@ public class ParticipantService {
         // TODO : 알람만들기
     }
 
-    public void responseParticipate(GameManagerResponseDto dto) {
+    public void replyRequestParticipate(ParticipateRequestReplyDto dto) {
         ParticipateRequest participateRequest = participateRequestRepoisotry.findById(dto.getParticipateRequestId())
                 .orElseThrow(NoSuchParticipantRequestException::new);
         // 참여요청을 수락/거절 바꿔주고
@@ -71,6 +78,13 @@ public class ParticipantService {
                 .toList();
     }
 
+    public void suggestParticipate(GameParticipateSuggestDto dto) {
+        // 유효성
+        Game game = gameRepository.findById(dto.getGameId())
+                .orElseThrow(NoSuchGameException::new);
+        participateSuggestRepository.save(dto.toEntity());
+    }
+
     private void validateParticipateRequest(GameParticipateRequestDto dto) {
         Game game = gameRepository.findById(dto.getGameId())
                 .orElseThrow(NoSuchGameException::new);
@@ -88,6 +102,42 @@ public class ParticipantService {
                 .ifPresent(pr -> {
                     throw new AlreadyRequestedGameException();
                 });
+    }
+
+    public void replySuggestParticipate(ParticipateSuggestReplyDto dto) {
+        ParticipateSuggest participateSuggest = participateSuggestRepository.findById(dto.getParticipateSuggestId())
+                .orElseThrow();
+        participateSuggest.updateStatus(dto.isResponse());
+
+        if (dto.isResponse()) {
+            Game game = gameRepository.findById(participateSuggest.getGameId()).orElseThrow(NoSuchGameException::new);
+            Participant participant = Participant.builder()
+                    .userId(participateSuggest.getSenderId())
+                    .game(game)
+                    .build();
+            game.participate(participant);
+        }
+    }
+
+    public List<ParticipateSuggestResponseDto> findSuggestsByGameId(long id) {
+        return participateSuggestRepository.findAllByGameId(id)
+                .stream()
+                .map(ParticipateSuggestResponseDto::from)
+                .toList();
+    }
+
+    public List<ParticipateSuggestResponseDto> findSuggestsBySenderId(long senderId) {
+        return participateSuggestRepository.findAllBySenderId(senderId)
+                .stream()
+                .map(ParticipateSuggestResponseDto::from)
+                .toList();
+    }
+
+    public List<ParticipateSuggestResponseDto> findSuggestsByReceiverId(long receiverId) {
+        return participateSuggestRepository.findAllByReceiverId(receiverId)
+                .stream()
+                .map(ParticipateSuggestResponseDto::from)
+                .toList();
     }
 
 }
