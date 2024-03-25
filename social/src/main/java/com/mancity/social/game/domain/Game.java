@@ -65,6 +65,8 @@ public class Game {
     @Enumerated
     private GameLevel level;
 
+    private long courtId;
+
     public void updateHighlights(List<String> highlights) {
         this.highlights.addAll(highlights);
     }

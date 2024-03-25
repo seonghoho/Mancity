@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserPlusRequestDto {
 
+    private long id; // stat, user 의 아이디
+
     private int speed; // 최고속도
 
     private int distanceCovered; // 총 이동 거리
@@ -30,8 +32,9 @@ public class UserPlusRequestDto {
 
     private int turnOverInDefense; // 수비 시 턴오버 성공한 총 횟수
 
-    public static UserPlusRequestDto from(Player player) {
+    public static UserPlusRequestDto of(Player player, long userId) {
         return UserPlusRequestDto.builder()
+                .id(userId)
                 .speed(player.getSpeed())
                 .distanceCovered(player.getDistanceCovered())
                 .pass(player.getPass())

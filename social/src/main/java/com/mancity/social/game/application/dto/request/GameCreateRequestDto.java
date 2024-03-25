@@ -29,6 +29,8 @@ public class GameCreateRequestDto {
 
     private String level;
 
+    private long courtId;
+
     public Game toEntity() {
         return Game.builder()
                 .replayUrl("")
@@ -39,6 +41,7 @@ public class GameCreateRequestDto {
                 .isOver(isOver)
                 .playerNumber(playerNumber)
                 .level(GameLevel.valueOf(level))
+                .courtId(courtId)
                 .build();
     }
 }

@@ -17,6 +17,8 @@ import java.util.List;
 @Builder
 public class GameResponseDto {
 
+    private long gameId;
+
     private String replayUrl;
 
     private List<String> highlights; // 회원 id,
@@ -45,8 +47,11 @@ public class GameResponseDto {
 
     private String level;
 
+    private long courtId;
+
     public static GameResponseDto from(Game game) {
         return GameResponseDto.builder()
+                .gameId(game.getId())
                 .replayUrl(game.getReplayUrl())
                 .highlights(game.getHighlights())
                 .gender(game.getGender())
@@ -64,6 +69,7 @@ public class GameResponseDto {
                         .map(ParticipantResponseDto::from)
                         .toList())
                 .level(game.getLevel().getGameLevel())
+                .courtId(game.getCourtId())
                 .build();
     }
 }

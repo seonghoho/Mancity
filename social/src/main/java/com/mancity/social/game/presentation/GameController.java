@@ -3,6 +3,8 @@ package com.mancity.social.game.presentation;
 import com.mancity.social.game.application.GameService;
 import com.mancity.social.game.application.dto.request.*;
 import com.mancity.social.game.application.dto.response.GameResponseDto;
+import com.mancity.social.game.application.dto.response.PlayerDataResponseDto;
+import com.mancity.social.game.application.dto.response.TeamDataResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,8 +41,23 @@ public class GameController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/allocated/{id}") // 회원별 데이터를 할당 받은 매치 목록
-    ResponseEntity<List<GameResponseDto>> findAllByUserId(@PathVariable long id) {
+    // team data
+    @GetMapping("/data/team/{id}")
+    public ResponseEntity<TeamDataResponseDto> findTeamDataByGameId(@PathVariable Long id) {
+        TeamDataResponseDto response = gameService.findTeamDataByGameId(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // player data
+    @GetMapping("/data/player/{id}")
+    public ResponseEntity<PlayerDataResponseDto> findPlayerDataByGameId(@PathVariable Long id) {
+        PlayerDataResponseDto response = gameService.findPlayerDataByGameId(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/allocated/{id}")
+        // 회원별 데이터를 할당 받은 매치 목록
+    ResponseEntity<List<GameResponseDto>> findAllocatedByUserId(@PathVariable long id) {
         return new ResponseEntity<>(gameService.findAllByUserId(id), HttpStatus.OK);
     }
 
@@ -69,10 +86,10 @@ public class GameController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<GameResponseDto>> findAll(@RequestParam(required = false) Integer gender,
-                                                         @RequestParam(required = false) Integer region,
-                                                         @RequestParam(required = false) Integer playernumber,
-                                                         @RequestParam(required = false) String level) {
+    public ResponseEntity<List<GameResponseDto>> findAllGamesByFilters(@RequestParam(required = false) Integer gender,
+                                                                       @RequestParam(required = false) Integer region,
+                                                                       @RequestParam(required = false) Integer playernumber,
+                                                                       @RequestParam(required = false) String level) {
         List<GameResponseDto> dtos = gameService.findAllByFilters(gender, region, playernumber, level);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
