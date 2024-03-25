@@ -8,3 +8,8 @@ interface signupApiType {
   height: number;
   weight: number;
 }
+
+interface loginApiType {
+  email: string;
+  password: string;
+}

@@ -158,6 +158,7 @@ const SignUpBody = () => {
       </div>
       <div className="my-8">
         <InputGroup
+          type="password"
           typographyLabel="비밀번호"
           placeholder="영문, 숫자, 특수문자 포함 8자리 이상"
           checking={false}
@@ -175,6 +176,7 @@ const SignUpBody = () => {
       </div>
       <div className="my-8">
         <InputGroup
+          type="password"
           typographyLabel="비밀번호 확인"
           placeholder="영문, 숫자, 특수문자 포함 8자리 이상"
           checking={false}

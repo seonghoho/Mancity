@@ -4,7 +4,7 @@ import LoginBody from "@/components/organisms/login_body/LoginBody";
 const LoginTemplate = () => {
   return (
     <div>
-      <Header label="로그인" backArrow={false} headerButton={false} />
+      <Header label="로그인" backArrow={true} headerButton={false} />
       <LoginBody />
     </div>
   );

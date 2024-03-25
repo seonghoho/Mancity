@@ -6,18 +6,18 @@ import GlobalSwitch from "@/components/molecules/global_switch/GlobalSwitch";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProfileEditBody = () => {
+const ProfileEditBody = ({ profileData }: ProfilePropsType) => {
   const navigate = useNavigate();
   const MainFootInfo = [
     { value: 1, label: "왼발" },
     { value: 2, label: "오른발" },
   ];
 
-  const [mainFootPosition, setMainFootPosition] = useState("click");
-  const [mainFootValue, setMainFootValue] = useState(0);
-  const [nickNameValue, setNickNameValue] = useState("");
-  const [heightValue, setHeightValue] = useState("");
-  const [weightValue, setWeightValue] = useState("");
+  const [mainFootPosition, setMainFootPosition] = useState(profileData.foot);
+  const [mainFootValue, setMainFootValue] = useState(profileData.foot);
+  const [nickNameValue, setNickNameValue] = useState(profileData.nickName);
+  const [heightValue, setHeightValue] = useState(profileData.height);
+  const [weightValue, setWeightValue] = useState(profileData.weight);
 
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
@@ -32,8 +32,8 @@ const ProfileEditBody = () => {
     const isValid =
       isNotEmpty(nickNameValue) &&
       mainFootValue !== 0 &&
-      isNotEmpty(heightValue) &&
-      isNotEmpty(weightValue);
+      heightValue !== 0 &&
+      weightValue != 0;
 
     setIsFormValid(isValid);
   }, [nickNameValue, mainFootValue, heightValue, weightValue]);
@@ -77,7 +77,7 @@ const ProfileEditBody = () => {
             />
           </div>
         </div>
-        <div className="flex flex-row ">
+        <div className="flex flex-row -mr-2">
           <div className="w-1/2">
             <Dropdown
               typographyLabel="주 발"
@@ -87,13 +87,13 @@ const ProfileEditBody = () => {
               setNumberValue={setMainFootValue}
             />
           </div>
-          <div className="w-1/2">
+          <div className="w-1/2 flex     -ml-2 -mt-4">
             {/* checked에는 해당 회원이 등록허용 해 뒀는지 값을 넣기 */}
             <GlobalSwitch
               label="용병등록"
               isSwitchOn={isSwitchOn}
               setIsSwitchOn={setIsSwitchOn}
-              switchMarginTop="mt-8"
+              switchMarginTop="ml-8 mt-16 "
             />
           </div>
         </div>

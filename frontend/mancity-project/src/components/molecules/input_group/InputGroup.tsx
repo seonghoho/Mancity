@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 
 const InputGroup = (props: InputGroupPropsType) => {
   const {
+    type,
     typographyLabel,
     placeholder,
     checking,
@@ -71,6 +72,7 @@ const InputGroup = (props: InputGroupPropsType) => {
           label={typographyLabel}
         />
         <GlobalInput
+          type={type}
           width="w-full"
           placeholder={placeholder}
           textValue={textValue}

@@ -4,7 +4,7 @@ import Header from "@/components/organisms/header/Header";
 import ProfileUserInfo from "@/components/organisms/profile_userInfo/ProfileUserInfo";
 import ProfileUserStats from "@/components/organisms/profile_userStats/ProfileUserStats";
 
-const ProfileTemplate = () => {
+const ProfileTemplate = ({ profileData }: ProfilePropsType) => {
   return (
     <div>
       <Header
@@ -14,7 +14,7 @@ const ProfileTemplate = () => {
         buttonLabel="정보 수정"
         toWhere="/profile/edit/1"
       />
-      <ProfileUserInfo />
+      <ProfileUserInfo profileData={profileData} />
       <ProfileUserStats />
       <GroupGlobalCard />
       <GroupHighlightCard />

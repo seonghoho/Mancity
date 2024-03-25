@@ -24,7 +24,7 @@ export const checkEmailApi = async (emailValue: string | number) => {
 // 닉네임 중복 확인
 export const checkNicknameApi = async (nicknameValue: string | number) => {
   return publicRequest
-    .post(`/user/check/nickname`, { nickname: nicknameValue })
+    .post(`/user/check/nickname`, { nickName: nicknameValue })
     .then((res) => res.data)
     .catch((error) => {
       console.log(error);
@@ -40,5 +40,27 @@ export const signupApi = async (signupData: signupApiType) => {
     .catch((error) => {
       console.log(error);
       throw new Error("회원가입 api 에러");
+    });
+};
+
+// 로그인
+export const loginApi = async (loginData: loginApiType) => {
+  return publicRequest
+    .post(`user/login`, loginData)
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+      throw new Error("회원가입 api 에러");
+    });
+};
+
+// 프로필
+export const fetchProfileApi = async (userId: number) => {
+  return publicRequest
+    .get(`user/${userId}`)
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+      throw new Error("유저 프로필 api 에러");
     });
 };
