@@ -1,11 +1,13 @@
+import { fetchMatchDetail } from "@/apis/matchApis";
 import ContentBox from "@/components/atoms/content_box/ContentBox";
 import Typography from "@/components/atoms/typography/Typography";
 import TypographyLine from "@/components/atoms/typography_line/TypographyLine";
 import MemberList from "@/components/molecules/member_list/MemberList";
 import MiniMap from "@/components/molecules/mini_map/MiniMap";
+import { useQuery } from "@tanstack/react-query";
 
 const MatchDetailBody = () => {
-  const address = "광주시 광산구 장덕동 82-3"
+  const address = "광주시 광산구 장덕동 82-3";
 
   const onClickCopy = async (text: string) => {
     try {
@@ -15,6 +17,15 @@ const MatchDetailBody = () => {
       console.log(err);
     }
   };
+
+  // MatchDatail get 호출
+  const { data } = useQuery({
+    queryKey: ["matchDetail"],
+    queryFn: fetchMatchDetail,
+  });
+
+  console.log(data);
+
   return (
     <div>
       {/* 지도 */}
@@ -23,7 +34,7 @@ const MatchDetailBody = () => {
         lng={126.8143846}
         address="광주시 광산구 장덕동 82-3"
         tel="062-951-9876"
-          onClick={() => onClickCopy(address)}
+        onClick={() => onClickCopy(address)}
       />
       {/* 경기 분석하기 컴포넌트 */}
       <div className="relative h-32 m-2 duration-300 ease-in-out cursor-pointer hover:opacity-60">

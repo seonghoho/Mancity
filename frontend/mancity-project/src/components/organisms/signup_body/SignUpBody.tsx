@@ -1,28 +1,28 @@
+import { signupApi } from "@/apis/userApis";
 import GlobalButton from "@/components/atoms/global_button/GlobalButton";
 import Typography from "@/components/atoms/typography/Typography";
 import Dropdown from "@/components/molecules/dropdown/Dropdown";
 import InputGroup from "@/components/molecules/input_group/InputGroup";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignUpBody = () => {
   const navigate = useNavigate();
+
   const GenderInfo = [
     { value: 1, label: "남자" },
     { value: 2, label: "여자" },
   ];
-
-  const [genderPosition, setGenderPosition] = useState("click");
-  const [genderValue, setGenderValue] = useState(0);
-
   const MainFootInfo = [
     { value: 1, label: "왼발" },
     { value: 2, label: "오른발" },
   ];
 
+  const [genderPosition, setGenderPosition] = useState("click");
+  const [genderValue, setGenderValue] = useState(0);
   const [mainFootPosition, setMainFootPosition] = useState("click");
   const [mainFootValue, setMainFootValue] = useState(0);
-
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [secondPasswordValue, setSecondPasswordValue] = useState("");
@@ -30,6 +30,29 @@ const SignUpBody = () => {
   const [birthValue, setBirthValue] = useState("");
   const [heightValue, setHeightValue] = useState("");
   const [weightValue, setWeightValue] = useState("");
+  const [isEmailCheck, setIsEmailCheck] = useState(true);
+  const [isNicknameCheck, setIsNicknameCheck] = useState(true);
+
+  const [signupData, setSignupData] = useState({
+    email: "",
+    password: "",
+    nickName: "",
+    birth: 0,
+    gender: 0,
+    mainFoot: 0,
+    height: 0,
+    weight: 0,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: signupApi,
+    onSuccess(result: string) {
+      console.log(result);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
 
   //유효성 검사
   // 이메일 형식 검사
@@ -69,7 +92,9 @@ const SignUpBody = () => {
       genderValue !== 0 &&
       mainFootValue !== 0 &&
       isNotEmpty(heightValue) &&
-      isNotEmpty(weightValue);
+      isNotEmpty(weightValue) &&
+      isEmailCheck == false &&
+      isNicknameCheck == false;
 
     setIsFormValid(isValid);
   }, [
@@ -82,35 +107,45 @@ const SignUpBody = () => {
     mainFootValue,
     heightValue,
     weightValue,
+    isEmailCheck,
+    isNicknameCheck,
   ]);
 
+  useEffect(() => {
+    if (isFormValid) {
+      setSignupData({
+        email: emailValue,
+        password: passwordValue,
+        nickName: nickNameValue,
+        birth: Number(birthValue),
+        gender: genderValue,
+        mainFoot: mainFootValue,
+        height: Number(heightValue),
+        weight: Number(weightValue),
+      });
+    }
+  }, [isFormValid]);
+
+  // 회원가입 제출
   const onSubmitSignup = () => {
+    console.log(signupData);
     console.log("회원가입 정보 제출");
-    navigate("/");
+    if (isFormValid) {
+      mutate(signupData);
+    }
+    // navigate("/");
   };
 
-  useEffect(() => {
-    console.log("email :", emailValue);
-    console.log("password :", passwordValue);
-    console.log("secondPassword :", secondPasswordValue);
-    console.log("nickname :", nickNameValue);
-    console.log("birth :", birthValue);
-    console.log("gender :", genderValue);
-    console.log("mainfoot :", mainFootValue);
-    console.log("height :", heightValue);
-    console.log("weight :", weightValue);
-    console.log(isFormValid);
-    console.log("----------------------");
-  }, [isFormValid]);
   return (
     <div>
-      <div className="my-6">
+      <div className="my-4">
         <InputGroup
           typographyLabel="이메일"
           placeholder="ssafy@email.com"
           checking={true}
           textValue={emailValue}
           setTextValue={setEmailValue}
+          setIsCheck={setIsEmailCheck}
         />
         <div className="text-mancity mx-4 -my-3 ">
           {emailValue && !validateEmail(emailValue) && (
@@ -162,6 +197,7 @@ const SignUpBody = () => {
           checking={true}
           textValue={nickNameValue}
           setTextValue={setNickNameValue}
+          setIsCheck={setIsNicknameCheck}
         />
       </div>
       <div className="mt-6">
@@ -193,7 +229,7 @@ const SignUpBody = () => {
           />
         </div>
       </div>
-      <div className="mb-6">
+      <div className="mb-2">
         <div className="flex flex-row ">
           <div className="w-2/4">
             <InputGroup

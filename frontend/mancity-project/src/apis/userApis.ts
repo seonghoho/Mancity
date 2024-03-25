@@ -9,27 +9,36 @@
 // PATCH 요청 API
 // DELETE 요청 API
 
+// 이메일 중복 확인
 import { publicRequest } from "@/hooks/requestMethods";
-export const fetchCheckEmail = async (emailValue: string | number) => {
+export const checkEmailApi = async (emailValue: string | number) => {
   return publicRequest
-    .post(`/user/check/email`, { email: emailValue }, { withCredentials: true })
+    .post(`/user/check/email`, { email: emailValue })
     .then((res) => res.data)
     .catch((error) => {
       console.log(error);
-      throw new Error("중복된 이메일");
+      throw new Error("이메일 중복 api 에러");
     });
 };
 
-export const fetchCheckNickname = async (nicknameValue: string | number) => {
+// 닉네임 중복 확인
+export const checkNicknameApi = async (nicknameValue: string | number) => {
   return publicRequest
-    .post(
-      `/user/check/nickname`,
-      { nickname: nicknameValue },
-      { withCredentials: true }
-    )
+    .post(`/user/check/nickname`, { nickname: nicknameValue })
     .then((res) => res.data)
     .catch((error) => {
       console.log(error);
-      throw new Error("중복된 닉네임");
+      throw new Error("닉네임 중복 api 에러");
+    });
+};
+
+// 회원가입
+export const signupApi = async (signupData: signupApiType) => {
+  return publicRequest
+    .post(`user/signup`, signupData)
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+      throw new Error("회원가입 api 에러");
     });
 };

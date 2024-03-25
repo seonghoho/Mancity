@@ -1,4 +1,4 @@
-import { fetchCheckEmail, fetchCheckNickname } from "@/apis/userApis";
+import { checkEmailApi, checkNicknameApi } from "@/apis/userApis";
 import GlobalInput from "@/components/atoms/global_input/GlobalInput";
 import SubButton from "@/components/atoms/sub_button/SubButton";
 import Typography from "@/components/atoms/typography/Typography";
@@ -10,18 +10,22 @@ const InputGroup = (props: InputGroupPropsType) => {
     placeholder,
     checking,
     checkingLabel = "중복 확인",
+    setIsCheck,
     textValue,
     setTextValue,
   } = props;
 
   // 이메일 유효성 로직
   const { mutate: emailMutate } = useMutation({
-    mutationFn: fetchCheckEmail,
+    mutationFn: checkEmailApi,
     onSuccess(result: boolean) {
-      if (result) {
-        console.log("사용 가능한 이메일입니다.");
-      } else {
-        console.log("사용할 수 없는 이메일입니다.");
+      if (setIsCheck) {
+        if (!result) {
+          console.log("사용 가능한 이메일입니다.");
+          setIsCheck(false);
+        } else {
+          console.log("사용할 수 없는 이메일입니다.");
+        }
       }
     },
     onError(error) {
@@ -31,12 +35,15 @@ const InputGroup = (props: InputGroupPropsType) => {
 
   // 닉네임 유효성 로직
   const { mutate: nicknameMutate } = useMutation({
-    mutationFn: fetchCheckNickname,
+    mutationFn: checkNicknameApi,
     onSuccess(result: boolean) {
-      if (result) {
-        console.log("사용 가능한 닉네임입니다.");
-      } else {
-        console.log("사용할 수 없는 닉네임입니다.");
+      if (setIsCheck) {
+        if (!result) {
+          console.log("사용 가능한 닉네임입니다.");
+          setIsCheck(false);
+        } else {
+          console.log("사용할 수 없는 닉네임입니다.");
+        }
       }
     },
     onError(error) {
