@@ -20,7 +20,7 @@ pipeline {
 
         stage('Add Env') {
             steps {
-                dir('./social') {
+                dir('./user') {
                     withCredentials([file(credentialsId: 'skey', variable: 'skey')]) {
                         sh 'chmod -R a=rwx src/main/resources'
                         sh 'cp ${skey} src/main/resources/application-skey.yml'
