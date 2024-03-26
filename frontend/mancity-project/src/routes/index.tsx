@@ -15,6 +15,7 @@ import ReplayPage from "@/pages/analysis/ReplayPage";
 import CommunityPage from "@/pages/community/CommunityListPage";
 import CommunityRegisterPage from "@/pages/community/CommunityRegisterPage";
 import CommunityEditPage from "@/pages/community/CommunityEditPage";
+import CommunityDetailPage from "@/pages/community/CommunityDetailPage";
 import ClubListPage from "@/pages/club/ClubListPage";
 import ClubDetailPage from "@/pages/club/ClubDetailPage";
 import ClubRegisterPage from "@/pages/club/ClubRegisterPage";
@@ -22,7 +23,7 @@ import ClubEditPage from "@/pages/club/ClubEditPage";
 import ClubFilterPage from "@/pages/club/ClubFilterPage";
 import ProfilePage from "@/pages/user/ProfilePage";
 import ProfileEditPage from "@/pages/user/ProfileEditPage";
-import CommunityDetailPage from "@/pages/community/CommunityDetailPage";
+import FollowPage from "@/pages/user/FollowPage";
 
 const AppRoutes = () => (
   <Routes>
@@ -50,6 +51,7 @@ const AppRoutes = () => (
     <Route path="/club/edit/:club_id" element={<ClubEditPage />} />
     <Route path="/profile/:user_id" element={<ProfilePage />} />
     <Route path="/profile/edit/:user_id" element={<ProfileEditPage />} />
+    <Route path="/follow/:user_id" element={<FollowPage />} />
   </Routes>
 );
 

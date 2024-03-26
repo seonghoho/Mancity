@@ -17,12 +17,16 @@ interface TailwindPropsType {
   label?: string;
   placeholder?: string;
   textValue?: string | number;
-  setTextValue?: React.Dispatch<React.SetStateAction<string>>;
+  setTextValue?:
+    | React.Dispatch<React.SetStateAction<string>>
+    | React.Dispatch<React.SetStateAction<number>>;
   isdisabled?: boolean;
 
   bgimg?: string;
   file?: string;
   hover?: boolean;
+
+  reverse?: boolean;
 }
 
 interface WideCardPropsType {
@@ -144,4 +148,11 @@ interface FooterPropsType {
 interface TextareaContainerPropsType {
   textareaValue: string;
   setTextareaValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface FollowCardPropsType {
+  file: string;
+  nickName: string;
+  isFollow: boolean;
+  setIsFollow: React.Dispatch<React.SetStateAction<boolean>>;
 }

@@ -77,7 +77,7 @@ const ProfileEditBody = ({ profileData }: ProfilePropsType) => {
             />
           </div>
         </div>
-        <div className="flex flex-row -mr-2">
+        <div className="flex flex-row ">
           <div className="w-1/2">
             <Dropdown
               typographyLabel="주 발"
@@ -87,7 +87,7 @@ const ProfileEditBody = ({ profileData }: ProfilePropsType) => {
               setNumberValue={setMainFootValue}
             />
           </div>
-          <div className="w-1/2 flex     -ml-2 -mt-4">
+          <div className="w-1/2 flex -mt-10">
             {/* checked에는 해당 회원이 등록허용 해 뒀는지 값을 넣기 */}
             <GlobalSwitch
               label="용병등록"

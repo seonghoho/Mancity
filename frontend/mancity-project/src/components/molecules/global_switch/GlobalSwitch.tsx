@@ -13,7 +13,7 @@ const GlobalSwitch = (props: GlobalSwitchPropsType) => {
 
   return (
     <div className="flex items-center justify-end mx-4">
-      <div className="mx-2">
+      <div>
         <Typography
           label={label}
           textSize="text-sm"
