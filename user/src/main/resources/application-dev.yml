@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      maxFileSize: 5000MB
+      maxRequestSize: 5000MB
   application:
     name: eureka-client-user
   datasource:
