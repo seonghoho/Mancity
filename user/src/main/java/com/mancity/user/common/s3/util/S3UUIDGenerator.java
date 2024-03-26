@@ -1,4 +1,4 @@
-package com.mancity.user.club.infrastructure.file.util;
+package com.mancity.user.common.s3.util;
 
 import org.springframework.stereotype.Component;
 

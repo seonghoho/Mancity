@@ -34,6 +34,8 @@ public class User {
 
     private String salt;
 
+    private String image;
+
     private int height;
 
     private int weight;
@@ -68,6 +70,10 @@ public class User {
         if (isValid(dto.getIsPlayer())) {
             this.isPlayer = dto.getIsPlayer();
         }
+    }
+
+    public void uploadImage(String url) {
+        this.image = url;
     }
 
     private boolean isValid(Object obj) {

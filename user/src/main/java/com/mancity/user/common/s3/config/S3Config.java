@@ -1,4 +1,4 @@
-package com.mancity.user.club.infrastructure.file.config;
+package com.mancity.user.common.s3.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

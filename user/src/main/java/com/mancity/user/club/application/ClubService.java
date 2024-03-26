@@ -7,7 +7,7 @@ import com.mancity.user.club.application.dto.response.ClubDetailResponseDto;
 import com.mancity.user.club.domain.Club;
 import com.mancity.user.club.domain.repository.ClubRepository;
 import com.mancity.user.club.exception.NoSuchClubException;
-import com.mancity.user.club.infrastructure.file.util.S3Uploader;
+import com.mancity.user.common.s3.util.S3Uploader;
 import com.mancity.user.user.domain.User;
 import com.mancity.user.user.domain.repository.UserRepository;
 import com.mancity.user.user.exception.UserNotExistException;

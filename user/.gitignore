@@ -36,5 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-**/application-s3key.yml
-application-s3key.yml
+**/application-skey.yml
+application-skey.yml
